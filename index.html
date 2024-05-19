@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Workbench&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="style.css" />
+        <script type="module" src="main.js" defer></script>
+    </head>
+    <body>
+        <!-- title -->
+        <section class="headline">
+            <span class="title" id="GUF">
+                GitHub <br />
+                User <br />
+                Finder
+            </span>
+            <div class="input-area" id="input-area">
+                <input
+                    type="text"
+                    id="input-box"
+                    placeholder="username"
+                />
+                <button id="search-button">search</button>
+            </div>
+        </section>
+        <!--  -->
+        <section class="container">
+            <!-- <div id="empty-box"><div id="message">Search a user!<br /> or click me!</div></div> -->
+            <!-- username, avatar, name -->
+            <div class="username">
+                <!-- from. js -->
+            </div>
+            <section class="result row">
+                <!-- left -->
+                <section class="left col-lg-4 col-md-12">
+                    <div class="main-info"></div>
+                    <!-- from .js -->
+                </section>
+                <!-- right -->
+                <section class="right col-lg-8 col-md-12" id="right">
+                    <section class="menus row">
+                    <div class="menu col-4" id="repository"><span>repository</span></div>
+                    <div class="menu col-4" id="followers"><span>followers</span></div>
+                    <div class="menu col-4" id="following"><span>following</span></div>
+                </section>
+                <div class="under-menu row">
+                    <!-- from .js -->
+                </div>
+                <section class="pagination">
+                    <div id="left-arrows">
+                        <div class="page arrow" id="first-page">&lt;&lt;</div>
+                        <div class="page arrow" id="prev-page">&lt;</div>
+                    </div>
+                    <div class="page-numbers" id="page-buttons">
+                        <div class="page" id="page-one"></div>
+                        <div class="page" id="page-two"></div>
+                        <div class="page" id="page-three"></div>
+                        <div class="page" id="page-four"></div>
+                        <div class="page" id="page-five"></div>
+                    </div>
+                    <div id="right-arrows">
+                        <div class="page arrow" id="next-page">&gt;</div>
+                        <div class="page arrow" id="last-page">&gt;&gt;</div>
+                    </div>
+                    
+                    
+                </section>
+                
+            </section>
+
+        </section>
+<div onclick="moveToPage()"></div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>

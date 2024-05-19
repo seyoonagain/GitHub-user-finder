@@ -1,0 +1,338 @@
+@font-face {
+    font-family: "intelone-mono-font-family-regular";
+    src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/intelone-mono-font-family-regular.woff2")
+        format("woff2");
+    font-weight: 400;
+    font-style: normal;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+::selection {
+    background-color: black;
+    color: white;
+}
+body {
+    background-color: rgb(211, 211, 211);
+}
+.headline {
+    background-color: black;
+    padding: 20px;
+}
+.title {
+    font-family: "Workbench", sans-serif;
+    font-weight: 400;
+    font-size: 40px;
+    color: white;
+    letter-spacing: -1px;
+    cursor: pointer;
+}
+.input-area {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: 200px;
+}
+#input-box {
+    outline: black solid 1px;
+    border: none;
+    background-color: white;
+    width: 200px;
+    font-family: "intelone-mono-font-family-regular";
+    padding: 0.3em;
+}
+#input-box::placeholder {
+    color: rgb(177, 177, 177);
+}
+#search-button {
+    border: none;
+    outline: black solid 1px;
+    background-color: rgb(37, 75, 177);
+    color: white;
+    font-family: "intelone-mono-font-family-regular";
+}
+/*  */
+.container {
+    height: 100vh;
+    width: 100vw;
+    font-family: "Prompt", sans-serif;
+    letter-spacing: -0.5px;
+}
+/*  */
+.username,
+.username a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    border-bottom: 1px black;
+    font-size: 45px;
+    font-weight: 800;
+    color: white;
+    text-decoration-line: none;
+    -webkit-text-stroke: 1px black;
+    text-shadow: black 3px 3px 0;
+    letter-spacing: -1.3px;
+    margin-bottom: 10px;
+}
+.avatar {
+    width: 200px;
+    border-radius: 100%;
+    border: 1px solid black;
+    box-shadow: black 5px 5px 0;
+    margin-bottom: 20px;
+}
+.empty-avatar {
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    background-color: rgb(240, 240, 240);
+    border: 1px solid black;
+    box-shadow: black 5px 5px 0;
+}
+.main-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    line-height: 1;
+    margin-bottom: 25px;
+}
+.name {
+    font-size: 30px;
+    font-weight: 600;
+    text-shadow: white 5px 5px 7px;
+    letter-spacing: -1px;
+}
+.bio {
+    font-size: 16px;
+}
+.row {
+    display: flex;
+    justify-content: center;
+}
+.numbers {
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 16px;
+}
+.number {
+    margin-bottom: -5px;
+    font-size: 18px;
+    font-weight: 500;
+    text-shadow: white 1px 1px 0;
+}
+.extra-details {
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+    line-height: 1;
+}
+.extra-details div {
+    margin-bottom: 10px;
+}
+.extra-top {
+    font-size: 15px;
+    color: rgb(99, 99, 99);
+}
+.extra-bottom {
+    font-size: 16px;
+    font-weight: 500;
+    color: rgb(55, 55, 55);
+}
+.blog a {
+    color: rgb(55, 55, 55);
+    text-decoration: none;
+}
+/*  */
+.right {
+    display: none;
+    background-color: rgb(240, 240, 240);
+    border: 1px solid black;
+    box-shadow: black 7px 7px 0;
+}
+.menus {
+    background-color: rgb(177, 177, 177);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    border-bottom: 1px solid black;
+    cursor: pointer;
+    letter-spacing: -0.7px;
+}
+.menu {
+    display: flex;
+    justify-content: center;
+    font-weight: 400;
+    border: none;
+    color: black;
+}
+.selected {
+    font-weight: 600;
+    color: black;
+    font-size: 18px;
+    text-shadow: white 1px 1px 0px;
+}
+/*  */
+.under-menu {
+    display: flex;
+    justify-content: flex-start;
+}
+/*  */
+.repo,
+.follow {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0 0 1% 0;
+    outline: 1px solid black;
+    padding: 20px;
+    background-color: white;
+    font-size: 14px;
+    color: rgb(99, 99, 99);
+}
+.repo {
+    height: 250px;
+}
+.follow {
+    height: 200px;
+}
+.repo a {
+    color: black;
+    cursor: pointer;
+}
+.repo-name {
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: underline;
+}
+.repo-desc {
+    font-weight: 300;
+    letter-spacing: -0.8px;
+    line-height: 1.2;
+}
+.repo-bottom {
+    text-align: end;
+    font-size: 13px;
+    color: rgb(170, 170, 170);
+    line-height: 0.5;
+}
+.repo-lang {
+    font-family: "intelone-mono-font-family-regular";
+    color: rgb(55, 55, 55);
+}
+/*  */
+.follow {
+    align-items: center;
+    margin: 0;
+    row-gap: 7px;
+}
+.follow a {
+    color: black;
+    text-decoration: none;
+}
+.follow-avatar {
+    border: 0.7px solid black;
+    box-shadow: black 2px 2px 0;
+    width: 140px;
+    border-radius: 100%;
+    margin-bottom: 5px;
+}
+.follow-username {
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+}
+/*  */
+.no-results {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+}
+/*  */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+#left-arrows,
+#right-arrows,
+.page-numbers {
+    display: flex;
+    justify-content: row;
+}
+.page-buttons {
+    display: flex;
+    justify-content: center;
+}
+.page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0.7px solid black;
+    background-color: white;
+    color: black;
+    padding: 0.5em;
+    min-width: 30px;
+    height: 30px;
+    font-family: "intelone-mono-font-family-regular";
+    font-size: 14px;
+    box-shadow: black 0px 5px 0px;
+    cursor: pointer;
+}
+.active {
+    font-size: 17px;
+    background-color: rgb(55, 55, 55);
+    color: white;
+}
+.arrow {
+    background-color: rgb(37, 75, 177);
+    color: white;
+}
+/*  */
+@media screen and (max-width: 768px) {
+    .follow-avatar {
+        width: 120px;
+    }
+    .follow {
+        height: 180px;
+    }
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+    .follow-avatar {
+        width: 140px;
+    }
+}
+@media screen and (min-width: 992px) and (max-width: 1200px) {
+    .follow-avatar {
+        width: 120px;
+    }
+    .follow {
+        height: 180px;
+    }
+    .repo {
+        height: 300px;
+    }
+}
+@media screen and (max-width: 992px) {
+    .title {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+    .input-area {
+        display: flex;
+        justify-content: center !important;
+    }
+    .title br {
+        display: none;
+    }
+}
