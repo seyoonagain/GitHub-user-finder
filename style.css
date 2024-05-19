@@ -39,6 +39,7 @@ body {
 #input-box {
     outline: black solid 1px;
     border: none;
+    border-radius: 0;
     background-color: white;
     width: 200px;
     font-family: "intelone-mono-font-family-regular";
