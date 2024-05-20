@@ -3,6 +3,7 @@
 import { Octokit } from "https://esm.sh/octokit?dts"
 import GITHUB_TOKEN from "./env.js"
 
+
 const octokit = new Octokit({
     auth: GITHUB_TOKEN
 })
@@ -11,64 +12,51 @@ const title = document.getElementById("GUF")
 let inputBox = document.getElementById("input-box")
 const searchButton = document.getElementById("search-button")
 let input = ""
-const menus = document.querySelectorAll(".menu span")
-let menu = "repository"
+let menuArray = [];
+for (let i = 1; i <= 3; i++) {
+    menuArray.push(document.getElementById(`menu-${i}`))
+}
+let menu = menuArray[0].id
 let results = [];
 let rightResult = [];
 let page = 1;
 let pageSize = 24;
 let totalPage = 0;
 let firstPage = ""
-let secondPage = ""
-let thirdPage = ""
-let fourthPage = ""
-let fifthPage = ""
+const groupSize = 5;
+let allPageButtons = [];
+for (let i = 1; i <= groupSize; i++) {
+    allPageButtons.push(document.getElementById(`page-${i}`))
+}
+let allArrowButtons = [];
+for (let i = 1; i <= 4; i++) {
+    allArrowButtons.push(document.getElementById(`arrow-${i}`))
+}
 
-// arrow buttons
-const firstPageButton = document.getElementById("first-page")
-const prevPageButton = document.getElementById("prev-page")
-const nextPageButton = document.getElementById("next-page")
-const lastPageButton = document.getElementById("last-page")
-// page buttons
-// const pageButtons = document.getElementById("page-buttons")
-const pageOne = document.getElementById("page-one")
-const pageTwo = document.getElementById("page-two")
-const pageThree = document.getElementById("page-three")
-const pageFour = document.getElementById("page-four")
-const pageFive = document.getElementById("page-five")
-
-// if the circle button is clicked, get github's info
-// circleButton.addEventListener("click", () => {
-//     input = "github"
-//     searchUsername()
-// })
 title.addEventListener("click", () => location.reload())
-// get input value
+
 searchButton.addEventListener("click", () => {
     input = inputBox.value
     inputBox.value = ""
-    menu = "repository";
-    page = 1;
+    menu = menuArray[0].id;
     searchUsername()
+    moveInputBox()
 })
-// activate enter key 
+
 inputBox.addEventListener("keypress", (event) => {
     if (event.key === "Enter") {
         searchButton.click();
     }
 })
 
-// get user's info
 const searchUsername = async () => {
     try {
-        // username search result
         const response = await octokit.request('GET /users/{username}', {
             username: input,
             headers: {
                 'X-GitHub-Api-Version': '2022-11-28'
             }
         })
-        // user's repository results
         const repoResponse = await octokit.request('GET /users/{username}/repos', {
             username: input,
             per_page: pageSize,
@@ -80,23 +68,6 @@ const searchUsername = async () => {
         })
         results = response.data
         rightResult = repoResponse.data
-        // move input area 
-        const inputArea = document.getElementById("input-area")
-        inputArea.style.cssText = "display: flex; justify-content: right; position: relative; top: 0px;"
-        // delete message on the first screen
-        // const delMessage = document.getElementById("message")
-        // delMessage.style.cssText = 'display: none'
-        // show right section
-        const showMenus = document.getElementById("right")
-        showMenus.style.cssText = 'display: inline; background-color: rgb(240, 240, 240); border: 1px solid black;box-shadow: black 7px 7px 0;';
-        // make repository menu text selected
-        const repository = document.getElementById("repository")
-        const followers = document.getElementById("followers")
-        const following = document.getElementById("following")
-        repository.setAttribute("class", "menu col-4 selected")
-        followers.setAttribute("class", "menu col-4")
-        following.setAttribute("class", "menu col-4")
-        // both section render
         leftRender();
         rightRender();
 
@@ -106,38 +77,21 @@ const searchUsername = async () => {
     }
 }
 
+const moveInputBox = () => {
+    const inputArea = document.getElementById("input-area")
+    inputArea.style.cssText = "display: flex; justify-content: right; position: relative; top: 0px;"
+}
 
-// repository, followers, following click event
-menus.forEach((tab) => tab.addEventListener("click", (event) => {
-    menu = event.target.textContent
-    switchMenu();
+menuArray.forEach(tab => tab.addEventListener("click", (event) => {
+    menu = event.target.id
+    page = 1;
+    updateResult();
 })
 )
-// when a menu is clicked
-const switchMenu = () => {
-    page = 1;
-    const repository = document.getElementById("repository")
-    const followers = document.getElementById("followers")
-    const following = document.getElementById("following")
-    if (menu === "repository") {
-        repository.setAttribute("class", "menu col-4 selected")
-        followers.setAttribute("class", "menu col-4")
-        following.setAttribute("class", "menu col-4")
-    } else if (menu === "followers") {
-        repository.setAttribute("class", "menu col-4")
-        followers.setAttribute("class", "menu col-4 selected")
-        following.setAttribute("class", "menu col-4")
-    } else if (menu === "following") {
-        repository.setAttribute("class", "menu col-4")
-        followers.setAttribute("class", "menu col-4")
-        following.setAttribute("class", "menu col-4 selected")
-    }
-    updateResult();
-}
 
 const updateResult = async () => {
     try {
-        if (menu === "repository") {
+        if (menu === menuArray[0].id) {
             const repoResponse = await octokit.request('GET /users/{username}/repos', {
                 username: input,
                 per_page: pageSize,
@@ -148,7 +102,7 @@ const updateResult = async () => {
                 }
             })
             rightResult = repoResponse.data
-        } else if (menu === "followers") {
+        } else if (menu === menuArray[1].id) {
             const followersResponse = await octokit.request('GET /users/{username}/followers', {
                 username: input,
                 per_page: pageSize,
@@ -158,7 +112,7 @@ const updateResult = async () => {
                 }
             })
             rightResult = followersResponse.data
-        } else if (menu === "following") {
+        } else if (menu === menuArray[2].id) {
             const followingResponse = await octokit.request('GET /users/{username}/following', {
                 username: input,
                 per_page: pageSize,
@@ -169,18 +123,18 @@ const updateResult = async () => {
             })
             rightResult = followingResponse.data
         }
-        rightRender(), paginationRender()
+        rightRender()
+        paginationRender()
     } catch (error) {
         alert(error.message)
         location.reload();
     }
 }
 
-// left section rendering
-// no info provided, show blank
 const leftRender = () => {
     const usernameHTML = `<a href="${results.html_url}">${results.login}</a>`
     document.querySelector(".username").innerHTML = usernameHTML
+
     const leftHTML = `
         <section class="main-info">
             <img
@@ -243,11 +197,21 @@ const leftRender = () => {
         </section>`
     document.querySelector(".left").innerHTML = leftHTML;
 }
-//right section rendering
-// no results? show 0 result
+
 const rightRender = () => {
+    document.getElementById("right")
+        .style.cssText = 'display: inline; background-color: rgb(240, 240, 240); border: 1px solid black;box-shadow: black 7px 7px 0;';
+
+    for (let i = 0; i < menuArray.length; i++) {
+        if (menu === menuArray[i].id) {
+            menuArray[i].setAttribute("class", "menu col-4 selected")
+        } else {
+            menuArray[i].setAttribute("class", "menu col-4")
+        }
+    }
+
     let rightHTML = ``
-    if (menu === "repository" || menu === "") {
+    if (menu === menuArray[0].id || menu === "") {
         if (rightResult.length == 0) {
             rightHTML = `<div class="no-results">0 repository</div>`
         } else {
@@ -262,7 +226,7 @@ const rightRender = () => {
                 </div>`
             }
         }
-    } else if (menu === "followers") {
+    } else if (menu === menuArray[1].id) {
         if (rightResult.length == 0) {
             rightHTML = `<div class="no-results">0 follower</div>`
         } else {
@@ -276,7 +240,7 @@ const rightRender = () => {
                 </div></a>`
             }
         }
-    } else if (menu === "following") {
+    } else if (menu === menuArray[2].id) {
         if (rightResult.length == 0) {
             rightHTML = `<div class="no-results">0 following</div>`
         } else {
@@ -293,147 +257,101 @@ const rightRender = () => {
     }
     document.querySelector(".under-menu").innerHTML = rightHTML;
     paginationRender();
-
 }
 
-// pagination
 const paginationRender = () => {
     let totalResults = 0;
-    if (menu === "repository") {
+    if (menu === menuArray[0].id) {
         totalResults = results.public_repos
-    } else if (menu === "followers") {
+    } else if (menu === menuArray[1].id) {
         totalResults = results.followers
-    } else if (menu === "following") {
+    } else if (menu === menuArray[2].id) {
         totalResults = results.following
     }
 
-    const groupSize = 5
     totalPage = Math.ceil(totalResults / pageSize)
     const pageGroup = Math.ceil(page / groupSize)
-    //
+
     const lastPage = (totalPage < (pageGroup * groupSize) || totalPage < groupSize)
         ? totalPage : (pageGroup * groupSize)
     firstPage = pageGroup != 1 && totalPage < pageGroup * groupSize
-        ? totalPage - groupSize + 1
+        ? lastPage - groupSize + 1
         : (pageGroup - 1) * groupSize + 1
-    secondPage = firstPage + 1
-    thirdPage = firstPage + 2
-    fourthPage = firstPage + 3
-    fifthPage = firstPage + 4
-    //
-    const allPages = [firstPage, secondPage, thirdPage, fourthPage, fifthPage]
-    const allButtons = [pageOne, pageTwo, pageThree, pageFour, pageFive]
-    if (totalResults <= 24) {
-        firstPageButton.style.cssText = "display:none"
-        prevPageButton.style.cssText = "display:none"
-        allButtons.forEach((button) => button.style.cssText = "display:none")
-        nextPageButton.style.cssText = "display:none"
-        lastPageButton.style.cssText = "display:none"
+
+    const toPages = [firstPage, firstPage + 1, firstPage + 2, firstPage + 3, firstPage + 4]
+
+    if (totalResults <= pageSize) {
+        allArrowButtons.forEach((button) => button.style.cssText = "display:none")
+        allPageButtons.forEach((button) => button.style.cssText = "display:none")
     } else {
-        allButtons.forEach((button) => button.style.cssText = "display:flex; justify-content:center")
-        pageOne.innerHTML = firstPage
-        pageTwo.innerHTML = secondPage
-        pageThree.innerHTML = thirdPage
-        pageFour.innerHTML = fourthPage
-        pageFive.innerHTML = fifthPage
-        // when total pages <= 5
-        for (let i = 0; i < allPages.length; i++) {
-            if (allPages[i] === totalPage) {
-                for (let j = i + 1; j < allButtons.length; j++) {
-                    allButtons[j].style.cssText = "display:none"
+        allPageButtons.forEach((button) => button.style.cssText = "display:flex; justify-content:center")
+
+        for (let i = 0; i < allPageButtons.length; i++) {
+            allPageButtons[i].innerHTML = toPages[i]
+        }
+
+        for (let i = 0; i < groupSize; i++) {
+            if (toPages[i] === totalPage) {
+                for (let j = i + 1; j < allPageButtons.length; j++) {
+                    allPageButtons[j].style.cssText = "display:none"
                 }
             }
         }
-        // on the first page, hide left arrow buttons
+
         if (page == 1) {
-            firstPageButton.style.cssText = "visibility:hidden"
-            prevPageButton.style.cssText = "visibility:hidden"
+            allArrowButtons[0].style.cssText = "visibility:hidden"
+            allArrowButtons[1].style.cssText = "visibility:hidden"
         } else {
-            firstPageButton.style.cssText = "visibility: visible"
-            prevPageButton.style.cssText = "visibility: visible"
+            allArrowButtons[0].style.cssText = "visibility: visible"
+            allArrowButtons[1].style.cssText = "visibility: visible"
         }
-        // on the last page, hide right arrow buttons
+
         if (page == totalPage) {
-            nextPageButton.style.cssText = "visibility:hidden"
-            lastPageButton.style.cssText = "visibility:hidden"
+            allArrowButtons[2].style.cssText = "visibility:hidden"
+            allArrowButtons[3].style.cssText = "visibility:hidden"
         } else {
-            nextPageButton.style.cssText = "visibility: visible"
-            lastPageButton.style.cssText = "visibility: visible"
+            allArrowButtons[2].style.cssText = "visibility: visible"
+            allArrowButtons[3].style.cssText = "visibility: visible"
         }
     }
 
-    // mark active page
-    if (page == firstPage) {
-        pageOne.setAttribute("class", "page active")
-    } else {
-        pageOne.setAttribute("class", "page")
-    }
-    if (page == secondPage) {
-        pageTwo.setAttribute("class", "page active")
-    } else {
-        pageTwo.setAttribute("class", "page")
-    }
-    if (page == thirdPage) {
-        pageThree.setAttribute("class", "page active")
-    } else {
-        pageThree.setAttribute("class", "page")
-    }
-    if (page == fourthPage) {
-        pageFour.setAttribute("class", "page active")
-    } else {
-        pageFour.setAttribute("class", "page")
-    }
-    if (page == fifthPage) {
-        pageFive.setAttribute("class", "page active")
-    } else {
-        pageFive.setAttribute("class", "page")
+    for (let i = 0; i < allPageButtons.length; i++) {
+        if (page == toPages[i]) {
+            allPageButtons[i].setAttribute("class", "page active")
+        } else {
+            allPageButtons[i].setAttribute("class", "page")
+        }
     }
 }
 
+for (let i = 0; i < allPageButtons.length; i++) {
+    allPageButtons[i].addEventListener("click", () => {
+        page = firstPage + i
+        updateResult();
+    })
+}
 
-// when arrow buttons are clicked
-firstPageButton.addEventListener("click", () => {
+allArrowButtons[0].addEventListener("click", () => {
     if (page != 1) {
         page = 1
         updateResult();
     }
 })
-prevPageButton.addEventListener("click", () => {
+allArrowButtons[1].addEventListener("click", () => {
     if (page != 1) {
         page -= 1
         updateResult();
     }
 })
-nextPageButton.addEventListener("click", () => {
+allArrowButtons[2].addEventListener("click", () => {
     if (page != totalPage) {
         page += 1
         updateResult();
     }
 })
-lastPageButton.addEventListener("click", () => {
+allArrowButtons[3].addEventListener("click", () => {
     if (page != totalPage) {
         page = totalPage
         updateResult();
     }
-})
-// when page buttons are clicked
-pageOne.addEventListener("click", () => {
-    page = firstPage
-    updateResult();
-})
-pageTwo.addEventListener("click", () => {
-    page = secondPage
-    updateResult();
-})
-pageThree.addEventListener("click", () => {
-    page = thirdPage
-    updateResult();
-})
-pageFour.addEventListener("click", () => {
-    page = fourthPage
-    updateResult();
-})
-pageFive.addEventListener("click", () => {
-    page = fifthPage
-    updateResult();
 })
